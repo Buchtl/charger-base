@@ -1,7 +1,7 @@
 import unittest
 import json
 from src import charger_api_calls
-from src.charger_models import status_poll
+from src.charger_models import StatusPoll, Cdi
 
 
 class TestChargerApiCalls(unittest.TestCase):
@@ -17,7 +17,7 @@ class TestChargerApiCalls(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_status_polling(self):
-        expected = status_poll(eto=4, err=0)
+        expected = StatusPoll(eto=4, err=0)
         actual = charger_api_calls.status_polling()
         self.assertEqual(actual, expected)
 

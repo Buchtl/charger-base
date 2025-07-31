@@ -1,6 +1,6 @@
 import requests
 from urllib.parse import urljoin
-from src.charger_models import status_poll
+from src.charger_models import StatusPoll, Cdi
 
 
 api_base = "http://go-echarger/api/status"
@@ -17,6 +17,6 @@ def status_energy_total_wh() -> int:
     return int(response)
 
 
-def status_polling() -> status_poll:
+def status_polling() -> StatusPoll:
     response = requests.get(f"{api_status}?filter=err,eto").json()
-    return status_poll(**response)
+    return StatusPoll(**response)
