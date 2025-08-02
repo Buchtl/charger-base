@@ -2,19 +2,21 @@ import argparse
 import logging
 import threading
 import time
-import signal
 
 
 from src import logging_conf
+from src import charger_api_calls as charger_api
+from src import charger_models as cModel
 
 logger = logging.getLogger("charger_base")
 
 polling_period = 1
 stop_event = threading.Event()
 
-def periodic_task():
+def polling_charger_data():
     while True:
-        print("Running periodic task")
+        data: cModel.StatusPoll = charger_api.status_polling()
+        print(f"{data}")
         time.sleep(polling_period)
 
 def signal_handler(sig, frame):
@@ -27,7 +29,7 @@ if __name__ == "__main__":
         description="asfasfdasfd"
     )
 
-    thread = threading.Thread(target=periodic_task, daemon=True)
+    thread = threading.Thread(target=polling_charger_data, daemon=True)
     thread.start()
 
     try:
