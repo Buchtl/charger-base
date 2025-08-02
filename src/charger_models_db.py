@@ -3,10 +3,9 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
-Base = declarative_base()
+from src.models_base import Base
 
-
-class User(Base):
+class StatusPollEntity(Base):
     __tablename__ = "status_poll"
     # in code Column(DateTime, default=datetime.utcnow)
     id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)  #

@@ -7,17 +7,23 @@ import time
 from src import logging_conf
 from src import charger_api_calls as charger_api
 from src import charger_models as cModel
+from src import charger_models_db as dbModel
+from src import charger_db_session as charger_db
 
 logger = logging.getLogger("charger_base")
 
-polling_period = 1
+polling_period = 10
 stop_event = threading.Event()
 
 def polling_charger_data():
-    while True:
-        data: cModel.StatusPoll = charger_api.status_polling()
-        print(f"{data}")
-        time.sleep(polling_period)
+    logger.info("######### polling ")
+    with charger_db.ChargerDbSession() as db:
+        while True:
+            data: cModel.StatusPoll = charger_api.status_polling()
+            logger.info(f"trying to write {data}")
+            db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err)
+            db.write(db_data)
+            time.sleep(polling_period)
 
 def signal_handler(sig, frame):
     print("Stopping...")
@@ -25,6 +31,7 @@ def signal_handler(sig, frame):
 
 if __name__ == "__main__":
     logging_conf.config()
+    logger.info("######## start ###########")
     parser = argparse.ArgumentParser(
         description="asfasfdasfd"
     )

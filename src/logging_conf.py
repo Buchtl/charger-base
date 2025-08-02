@@ -16,7 +16,7 @@ def config():
     log_format = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     formatter = logging.Formatter(log_format)
     # Logger setup
-    logger = logging.getLogger("xml_watcher")
+    logger = logging.getLogger("charger_base")
     logger.setLevel(log_level)
     # File handler: one file per day, keep 7 days
     file_handler = TimedRotatingFileHandler(
