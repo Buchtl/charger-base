@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   charger-base:
-    image: obazda/charger-base:${CHARGER_BASE_VERSION:-0.1-SNAPHSOT}${CHARGER_BASE_ARCH:--AMD64}
+    image: obazda/charger-base:${CHARGER_BASE_VERSION:-0.1-SNAPHSOT}${CHARGER_BASE_ARCH:--amd64}
     build:
       context: ..
       dockerfile: docker/Dockerfile
