@@ -2,6 +2,8 @@ import argparse
 import logging
 import threading
 import time
+import sys
+import os
 
 from src import logging_conf
 from src.charger_poll import ChargerPoll
@@ -10,7 +12,6 @@ logger: logging.Logger = logging_conf.config("charger_base")
 stop_event = threading.Event()
 
 if __name__ == "__main__":
-    logger.info("######## start ###########")
     parser = argparse.ArgumentParser(
         description="Polling data from the charger and write to database"
     )
@@ -36,7 +37,16 @@ if __name__ == "__main__":
     db_user = args.dbuser
     db_pass = args.dbpass
     db_name = args.dbname
-    polling_period = int(args.ptime)
+
+    if args.ptime.isdecimal():
+       polling_period = int(args.ptime)
+    else:
+       logger.error(f"Invalid ptime. Given={args.ptime} must be a number")
+       sys.exit(os.EX_USAGE)
+
+    logger.info("######## start ###########")
+    logger.info(f"dburl={db_url}, dbuser={db_user}, dbname={db_name}, ptime={polling_period}")
+
     poller = ChargerPoll(db_url=db_url, db_user=db_user, db_pass=db_pass, db_name=db_name, polling_period=polling_period, stop_event = stop_event)
     thread = threading.Thread(target=poller.polling_charger_data, daemon=True)
     thread.start()
