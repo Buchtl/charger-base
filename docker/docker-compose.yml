@@ -6,10 +6,10 @@ services:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    user: 1000:1000
-    environment:
-      - PYTHONUNBUFFERED=1
     deploy:
       replicas: 1
       restart_policy:
         condition: on-failure
+      placement:
+        constraints:
+          - node.labels.apps == true
