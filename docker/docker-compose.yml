@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  charger-base:
+    image: obazda/charger-base:0.1-SNAPHSOT
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    environment:
+      - DB_URL=${DB_URL:-pi4b}
+      - DB_PORT=${DB_PORT:-5432}
+      - DB_USER=${DB_USER:-charger}
+      - DB_PASSWORD=${DB_PASSWORD:-charger}
+      - DB_NAME=${DB_NAME:-charger}
+      - POLLING_PERIOD=${POLLING_PERIOD:-10}
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.labels.apps == true

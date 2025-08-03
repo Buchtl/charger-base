@@ -1,13 +1,17 @@
-from sqlalchemy import Column, Integer
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, DateTime, func
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
-Base = declarative_base()
+from src.models_base import Base
 
-class User(Base):
-    __tablename__ = 'status_poll'
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)
+
+class StatusPollEntity(Base):
+    __tablename__ = "status_poll"
+    # in code Column(DateTime, default=datetime.utcnow)
+    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid.uuid4)  #
+    time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     eto = Column(Integer)
     err = Column(Integer)
 
+    def __str__(self):
+        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err})"

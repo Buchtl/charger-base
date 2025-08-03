@@ -4,7 +4,8 @@ import pathlib
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-def config():
+
+def config(name: str):
     log_level_str = os.getenv("LOG_LEVEL", "INFO").upper()
     log_dir = pathlib.Path(os.getenv("LOG_DIR", "logs"))
     log_level = getattr(
@@ -16,11 +17,11 @@ def config():
     log_format = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     formatter = logging.Formatter(log_format)
     # Logger setup
-    logger = logging.getLogger("xml_watcher")
+    logger = logging.getLogger(name)
     logger.setLevel(log_level)
     # File handler: one file per day, keep 7 days
     file_handler = TimedRotatingFileHandler(
-        filename=(log_dir / "charger_base.log").as_posix(),
+        filename=(log_dir / "charger.log").as_posix(),
         when="midnight",
         interval=1,
         backupCount=7,
@@ -33,4 +34,5 @@ def config():
     # Add handlers
     logger.addHandler(file_handler)
     logger.addHandler(stdout_handler)
-    logger.info(f"Start logging (LOG_DIR: {log_dir.absolute()})")
+    logger.info(f"Start logging {name} (LOG_DIR: {log_dir.absolute()})")
+    return logger
