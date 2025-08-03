@@ -10,9 +10,11 @@ class ChargerDbSession:
     logger = logging_conf.config("ChargerDbSession")
     session: SessionType
 
-    def __init__(self, database_url: str = None):
-        if database_url is None:
-            database_url = "postgresql+psycopg2://charger:charger@pi4b:5432/charger"
+    def __init__(self, db_url: str = None, db_user: str = None, db_pass: str = None, db_name: str = None):
+        self.logger.debug(f"url: {db_url}, user: {db_user}, pass: {db_pass}, name: {db_name}")
+        #if db_url is None:
+            #postgresql+psycopg2://charger:charger@pi4b:5432/charger"
+        database_url = f"postgresql+psycopg2://{db_user}:{db_pass}@{db_url}/{db_name}"
         self.engine = create_engine(database_url)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)

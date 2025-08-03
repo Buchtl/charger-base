@@ -2,44 +2,43 @@ import argparse
 import logging
 import threading
 import time
-import random
-
 
 from src import logging_conf
-from src import charger_api_calls as charger_api
-from src import charger_models as cModel
-from src import charger_models_db as dbModel
-from src import charger_db_session as charger_db
+from src.charger_poll import ChargerPoll
 
 logger: logging.Logger = logging_conf.config("charger_base")
-
-polling_period = 10
 stop_event = threading.Event()
-
-def polling_charger_data():
-    with charger_db.ChargerDbSession() as db:
-        i = 0
-        while True:
-            data: cModel.StatusPoll = charger_api.status_polling()
-            eto = str(int(data.eto) + i + random.randint(1, 9))
-            i += 1
-            data.eto = eto
-            logger.info(f"trying to write {data}")
-            db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err)
-            db.write(db_data)
-            time.sleep(polling_period)
-
-def signal_handler(sig, frame):
-    logger.info("Stopping...")
-    stop_event.set()
 
 if __name__ == "__main__":
     logger.info("######## start ###########")
     parser = argparse.ArgumentParser(
-        description="asfasfdasfd"
+        description="Polling data from the charger and write to database"
+    )
+    parser.add_argument(
+        "--dburl", default="pi4b:5432", help="URL with port of the database"
     )
 
-    thread = threading.Thread(target=polling_charger_data, daemon=True)
+    parser.add_argument(
+        "--dbuser", default="charger", help="Username of the target databse"
+    )
+    parser.add_argument(
+        "--dbpass", default="charger", help="Password for --dbuser of the target databse"
+    )
+    parser.add_argument(
+        "--dbname", default="charger", help="Database name of the target databse"
+    )
+    parser.add_argument(
+        "--ptime", default="1", help="Polling interval in seconds"
+    )
+
+    args = parser.parse_args()
+    db_url = args.dburl
+    db_user = args.dbuser
+    db_pass = args.dbpass
+    db_name = args.dbname
+    polling_period = int(args.ptime)
+    poller = ChargerPoll(db_url=db_url, db_user=db_user, db_pass=db_pass, db_name=db_name, polling_period=polling_period, stop_event = stop_event)
+    thread = threading.Thread(target=poller.polling_charger_data, daemon=True)
     thread.start()
 
     try:
