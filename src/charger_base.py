@@ -16,7 +16,6 @@ polling_period = 10
 stop_event = threading.Event()
 
 def polling_charger_data():
-    logger.info("######### polling ")
     with charger_db.ChargerDbSession() as db:
         while True:
             data: cModel.StatusPoll = charger_api.status_polling()
