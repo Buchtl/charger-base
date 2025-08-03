@@ -13,6 +13,8 @@ services:
       - DB_PASSWORD=${DB_PASSWORD:-charger}
       - DB_NAME=${DB_NAME:-charger}
       - POLLING_PERIOD=${POLLING_PERIOD:-10}
+    networks:
+      - charger-net
     deploy:
       replicas: 1
       restart_policy:
@@ -20,3 +22,7 @@ services:
       placement:
         constraints:
           - node.labels.apps == true
+
+networks:
+  charger-net:
+    external: true
