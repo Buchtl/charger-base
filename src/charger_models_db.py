@@ -1,9 +1,9 @@
 from sqlalchemy import Column, Integer, DateTime, func
-from sqlalchemy.orm import declarative_base
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
 from src.models_base import Base
+
 
 class StatusPollEntity(Base):
     __tablename__ = "status_poll"

@@ -4,6 +4,7 @@ import pathlib
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
+
 def config(name: str):
     log_level_str = os.getenv("LOG_LEVEL", "INFO").upper()
     log_dir = pathlib.Path(os.getenv("LOG_DIR", "logs"))
