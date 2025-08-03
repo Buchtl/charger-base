@@ -4,7 +4,7 @@ import pathlib
 import logging
 from logging.handlers import TimedRotatingFileHandler
 
-def config():
+def config(name: str):
     log_level_str = os.getenv("LOG_LEVEL", "INFO").upper()
     log_dir = pathlib.Path(os.getenv("LOG_DIR", "logs"))
     log_level = getattr(
@@ -33,4 +33,5 @@ def config():
     # Add handlers
     logger.addHandler(file_handler)
     logger.addHandler(stdout_handler)
-    logger.info(f"Start logging (LOG_DIR: {log_dir.absolute()})")
+    logger.info(f"Start logging {name} (LOG_DIR: {log_dir.absolute()})")
+    return logger

@@ -1,13 +1,13 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker, Session as SessionType
-import logging
+from src import logging_conf
 from typing import Any
 
 from src.models_base import Base
 from src.charger_models_db import StatusPollEntity
 
 class ChargerDbSession:
-    logger = logging.getLogger("charger_base")
+    logger = logging_conf.config("ChargerDbSession")
     session: SessionType
 
     def __init__(self, database_url: str = None):

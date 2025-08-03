@@ -10,7 +10,7 @@ from src import charger_models as cModel
 from src import charger_models_db as dbModel
 from src import charger_db_session as charger_db
 
-logger = logging.getLogger("charger_base")
+logger: logging.Logger = logging_conf.config("charger_base")
 
 polling_period = 10
 stop_event = threading.Event()
@@ -29,7 +29,6 @@ def signal_handler(sig, frame):
     stop_event.set()
 
 if __name__ == "__main__":
-    logging_conf.config()
     logger.info("######## start ###########")
     parser = argparse.ArgumentParser(
         description="asfasfdasfd"
