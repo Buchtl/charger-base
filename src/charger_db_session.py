@@ -1,5 +1,5 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import declarative_base, sessionmaker, Session as SessionType
+from sqlalchemy.orm import sessionmaker, Session as SessionType
 from src import logging_conf
 from typing import Any
 
