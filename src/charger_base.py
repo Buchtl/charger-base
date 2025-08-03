@@ -2,6 +2,7 @@ import argparse
 import logging
 import threading
 import time
+import random
 
 
 from src import logging_conf
@@ -17,8 +18,12 @@ stop_event = threading.Event()
 
 def polling_charger_data():
     with charger_db.ChargerDbSession() as db:
+        i = 0
         while True:
             data: cModel.StatusPoll = charger_api.status_polling()
+            eto = str(int(data.eto) + i + random.randint(1, 9))
+            i += 1
+            data.eto = eto
             logger.info(f"trying to write {data}")
             db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err)
             db.write(db_data)

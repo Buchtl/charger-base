@@ -12,3 +12,6 @@ class StatusPollEntity(Base):
     time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     eto = Column(Integer)
     err = Column(Integer)
+
+    def __str__(self):
+        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err})"

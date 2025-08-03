@@ -16,11 +16,11 @@ def config(name: str):
     log_format = "%(asctime)s [%(levelname)s] %(name)s: %(message)s"
     formatter = logging.Formatter(log_format)
     # Logger setup
-    logger = logging.getLogger("charger_base")
+    logger = logging.getLogger(name)
     logger.setLevel(log_level)
     # File handler: one file per day, keep 7 days
     file_handler = TimedRotatingFileHandler(
-        filename=(log_dir / "charger_base.log").as_posix(),
+        filename=(log_dir / "charger.log").as_posix(),
         when="midnight",
         interval=1,
         backupCount=7,
