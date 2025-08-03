@@ -25,7 +25,7 @@ def polling_charger_data():
             time.sleep(polling_period)
 
 def signal_handler(sig, frame):
-    print("Stopping...")
+    logger.info("Stopping...")
     stop_event.set()
 
 if __name__ == "__main__":
@@ -44,4 +44,4 @@ if __name__ == "__main__":
       logger.info("KeyboardInterrupt received. Exiting...")
       stop_event.set()
 
-    print("Exit application.")
+    logger.info("Exit application.")
