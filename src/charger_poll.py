@@ -12,14 +12,16 @@ from src import charger_db_session as charger_db
 class ChargerPoll:
     logger = logging_conf.config("ChargerPoll")
     db_url: str
+    db_port: str
     db_user: str
     db_pass: str
     db_name: str
     polling_period: int
     stop_event: threading.Event
 
-    def __init__(self, db_url: str = None, db_user: str = None, db_pass: str = None, db_name: str = None, polling_period: int = 1, stop_event = threading.Event):
+    def __init__(self, db_url: str = None, db_port: str = None, db_user: str = None, db_pass: str = None, db_name: str = None, polling_period: int = 1, stop_event = threading.Event):
         self.db_url = db_url
+        self.db_port = db_port
         self.db_user = db_user
         self.db_pass = db_pass
         self.db_name = db_name
@@ -27,7 +29,7 @@ class ChargerPoll:
         self.stop_event = stop_event
     
     def polling_charger_data(self):
-      with charger_db.ChargerDbSession(db_url=self.db_url, db_user=self.db_user, db_pass=self.db_pass, db_name=self.db_name) as db:
+      with charger_db.ChargerDbSession(db_url=self.db_url, db_port=self.db_port, db_user=self.db_user, db_pass=self.db_pass, db_name=self.db_name) as db:
           i = 0
           while True:
               data: cModel.StatusPoll = charger_api.status_polling()

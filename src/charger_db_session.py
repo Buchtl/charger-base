@@ -10,9 +10,9 @@ class ChargerDbSession:
     logger = logging_conf.config("ChargerDbSession")
     session: SessionType
 
-    def __init__(self, db_url: str = None, db_user: str = None, db_pass: str = None, db_name: str = None):
+    def __init__(self, db_url: str = None, db_port: str = None, db_user: str = None, db_pass: str = None, db_name: str = None):
         self.logger.debug(f"url: {db_url}, user: {db_user}, pass: {db_pass}, name: {db_name}")
-        database_url = f"postgresql+psycopg2://{db_user}:{db_pass}@{db_url}/{db_name}"
+        database_url = f"postgresql+psycopg2://{db_user}:{db_pass}@{db_url}:{db_port}/{db_name}"
         self.engine = create_engine(database_url)
         Base.metadata.create_all(self.engine)
         self.Session = sessionmaker(bind=self.engine)

@@ -16,9 +16,11 @@ if __name__ == "__main__":
         description="Polling data from the charger and write to database"
     )
     parser.add_argument(
-        "--dburl", default="pi4b:5432", help="URL with port of the database"
+        "--dburl", default="pi4b", help="URL with of the database"
     )
-
+    parser.add_argument(
+        "--dbport", default="5432", help="Port of the database"
+    )
     parser.add_argument(
         "--dbuser", default="charger", help="Username of the target databse"
     )
@@ -34,6 +36,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     db_url = args.dburl
+    db_port = args.dbport
     db_user = args.dbuser
     db_pass = args.dbpass
     db_name = args.dbname
@@ -45,9 +48,9 @@ if __name__ == "__main__":
        sys.exit(os.EX_USAGE)
 
     logger.info("######## start ###########")
-    logger.info(f"dburl={db_url}, dbuser={db_user}, dbname={db_name}, ptime={polling_period}")
+    logger.info(f"dburl={db_url}, dbport={db_port} dbuser={db_user}, dbname={db_name}, ptime={polling_period}")
 
-    poller = ChargerPoll(db_url=db_url, db_user=db_user, db_pass=db_pass, db_name=db_name, polling_period=polling_period, stop_event = stop_event)
+    poller = ChargerPoll(db_url=db_url, db_port=db_port, db_user=db_user, db_pass=db_pass, db_name=db_name, polling_period=polling_period, stop_event = stop_event)
     thread = threading.Thread(target=poller.polling_charger_data, daemon=True)
     thread.start()
 

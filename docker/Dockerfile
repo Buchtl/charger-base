@@ -17,10 +17,11 @@ RUN pip install -r requirements.txt
 USER nobody
 
 ENV PYTHONUNBUFFERED=1 \
-    DB_URL="pi4b:5432" \
+    DB_URL="pi4b" \
+    DB_PORT="5432" \
     DB_USER="charger" \
     DB_PASSWORD="charger" \
     DB_NAME="charger" \
     POLLING_PERIOD="1"
 
-CMD ["sh", "-c", "python3 -m src.charger_base --dburl \"$DB_URL\" --dbuser \"$DB_USER\" --dbpass \"$DB_PASSWORD\" --dbname \"$DB_NAME\" --ptime \"$POLLING_PERIOD\""]
+CMD ["sh", "-c", "python3 -m src.charger_base --dburl \"$DB_URL\" --dbport \"$DB_PORT\" --dbuser \"$DB_USER\" --dbpass \"$DB_PASSWORD\" --dbname \"$DB_NAME\" --ptime \"$POLLING_PERIOD\""]
