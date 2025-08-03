@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   charger-base:
-    image: charger_base:0.1-SNAPHSOT
+    image: obazda/charger-base:0.1-SNAPHSOT
     build:
       context: ..
       dockerfile: docker/Dockerfile
