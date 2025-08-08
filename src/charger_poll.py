@@ -48,9 +48,6 @@ class ChargerPoll:
             i = 0
             while True:
                 data: cModel.StatusPoll = charger_api.status_polling()
-                eto = str(int(data.eto) + i + random.randint(1, 9))
-                i += 10
-                data.eto = eto
                 self.logger.info(f"trying to write {data}")
                 db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err, tma_0=data.tma[0], tma_1=data.tma[1])
                 db.write(db_data)
