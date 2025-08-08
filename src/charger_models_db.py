@@ -13,7 +13,7 @@ class StatusPollEntity(Base):
     eto = Column(Integer)
     err = Column(Integer)
     tma_0 = Column(Float)
-    tma_1 = Column(float)
+    tma_1 = Column(Float)
 
     def __str__(self):
-        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err}, {self.tma_1}, {self.tma_2})"
+        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err}, {self.tma_0}, {self.tma_1})"
