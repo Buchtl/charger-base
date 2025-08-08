@@ -4,8 +4,6 @@ from src import logging_conf
 from typing import Any
 
 from src.models_base import Base
-from src.charger_models_db import StatusPollEntity
-
 
 class ChargerDbSession:
     logger = logging_conf.config("ChargerDbSession")

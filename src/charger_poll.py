@@ -52,7 +52,7 @@ class ChargerPoll:
                 i += 10
                 data.eto = eto
                 self.logger.info(f"trying to write {data}")
-                db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err)
+                db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err, tma_0=data.tma[0], tma_1=data.tma[1])
                 db.write(db_data)
                 time.sleep(self.polling_period)
 

@@ -18,5 +18,5 @@ def status_energy_total_wh() -> int:
 
 
 def status_polling() -> StatusPoll:
-    response = requests.get(f"{api_status}?filter=err,eto").json()
+    response = requests.get(f"{api_status}?filter=err,eto,tma").json()
     return StatusPoll(**response)
