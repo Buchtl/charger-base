@@ -12,7 +12,7 @@ services:
       - DB_USER=${DB_USER:-charger}
       - DB_PASSWORD=${DB_PASSWORD:-charger}
       - DB_NAME=${DB_NAME:-charger}
-      - POLLING_PERIOD=${POLLING_PERIOD:-10}
+      - POLLING_PERIOD=${POLLING_PERIOD:-60}
     networks:
       - charger-net
     deploy:
