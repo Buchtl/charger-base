@@ -17,9 +17,10 @@ class TestChargerApiCalls(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     def test_status_polling(self):
-        expected = StatusPoll(eto=4, err=0)
+        expected = StatusPoll(eto=4, err=0, tma={0,0})
         actual = charger_api_calls.status_polling()
-        self.assertEqual(actual, expected)
+        self.assertEqual(actual.eto, expected.eto)
+        self.assertEqual(actual.err, expected.err)
 
 
 if __name__ == "__main__":

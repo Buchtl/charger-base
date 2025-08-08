@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, DateTime, func
+from sqlalchemy import Column, Integer, DateTime, func, Float
 from sqlalchemy.dialects.postgresql import UUID
 import uuid
 
@@ -12,6 +12,8 @@ class StatusPollEntity(Base):
     time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     eto = Column(Integer)
     err = Column(Integer)
+    tma_0 = Column(Float)
+    tma_1 = Column(Float)
 
     def __str__(self):
-        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err})"
+        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err}, {self.tma_0}, {self.tma_1})"
