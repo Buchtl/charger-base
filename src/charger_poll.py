@@ -45,7 +45,6 @@ class ChargerPoll:
             db_pass=self.db_pass,
             db_name=self.db_name,
         ) as db:
-            i = 0
             while True:
                 data: cModel.StatusPoll = charger_api.status_polling()
                 self.logger.info(f"trying to write {data}")
