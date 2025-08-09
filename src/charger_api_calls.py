@@ -8,5 +8,5 @@ api_status = urljoin(api_base, "status")
 
 
 def status_polling() -> StatusPoll:
-    response = requests.get(f"{api_status}?filter=err,eto,tma").json()
+    response = requests.get(f"{api_status}?filter=err,eto,tma,fhz").json()
     return StatusPoll(**response)

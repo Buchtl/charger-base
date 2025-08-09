@@ -7,6 +7,7 @@ import os
 
 from src import logging_conf
 from src.charger_poll import ChargerPoll
+from src.charger_db_session import ChargerDbSession
 
 logger: logging.Logger = logging_conf.config("charger_base")
 stop_event = threading.Event()
@@ -48,12 +49,10 @@ if __name__ == "__main__":
         f"dburl={db_url}, dbport={db_port} dbuser={db_user}, dbname={db_name}, ptime={polling_period}"
     )
 
+    db_session = ChargerDbSession(db_url=db_url, db_port=db_port, db_user=db_user, db_pass=db_pass, db_name=db_name)
+
     poller = ChargerPoll(
-        db_url=db_url,
-        db_port=db_port,
-        db_user=db_user,
-        db_pass=db_pass,
-        db_name=db_name,
+        db_session=db_session,
         polling_period=polling_period,
         stop_event=stop_event,
     )
