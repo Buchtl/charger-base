@@ -1,22 +1,5 @@
 from dataclasses import dataclass
 
-
-@dataclass
-class Cdi:
-    """
-    type (int): charging duration info (null=no charging in progress, type=0 counter going up, type=1 duration in ms
-    value (int): type=0 counter going up, type=1 duration in ms
-    """
-
-    type: int
-    value: int
-
-
-@dataclass
-class ErrorStatus:
-    err: int
-
-
 # energy_total, measured in Wh
 @dataclass
 class StatusPoll:
