@@ -4,6 +4,7 @@ greenlet==3.2.3
 idna==3.10
 psycopg2-binary==2.9.10
 requests==2.32.4
+requests-mock==1.12.1
 SQLAlchemy==2.0.42
 typing_extensions==4.14.1
 urllib3==2.5.0
