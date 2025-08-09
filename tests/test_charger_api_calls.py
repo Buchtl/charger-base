@@ -2,7 +2,7 @@ import unittest
 import requests_mock
 
 from src import charger_api_calls
-from src.charger_models import StatusPoll, Cdi
+from src.charger_models import StatusPoll
 
 
 class TestChargerApiCalls(unittest.TestCase):
