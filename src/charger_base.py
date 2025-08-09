@@ -16,7 +16,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Polling data from the charger and write to database"
     )
-    parser.add_argument("--dburl", default="pi4b", help="URL with of the database")
+    parser.add_argument("--dburl", default="localhost", help="URL with of the database")
     parser.add_argument("--dbport", default="5432", help="Port of the database")
     parser.add_argument(
         "--dbuser", default="charger", help="Username of the target databse"
