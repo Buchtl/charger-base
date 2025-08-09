@@ -9,7 +9,7 @@ from src.charger_models import StatusPoll
 
 
 def mock_db_write():
-    return patch.object(charger_db_session.ChargerDbSession, "write", autospec=True)
+    return patch.object(charger_db_session.ChargerDbSession, "write")
 
 
 def mock_status(mocker):
@@ -23,12 +23,17 @@ def mock_status(mocker):
 
 
 class TestChargerApiCalls(unittest.TestCase):
-    def test_polling_charger_data(self):
-        with requests_mock.Mocker() as m:
+
+    @patch("src.charger_db_session.create_engine")
+    def test_polling_charger_data(self, mock_engine):
+        mock_engine.return_value.connect.return_value = MagicMock()
+        with requests_mock.Mocker() as m, mock_db_write() as mock_write:
             mock_status(m)
-            mock_db = MagicMock()
-            charger_poll.ChargerPoll(db_session=mock_db).polling_charger_data()
-            mock_db.write.assert_called_once()
+            db_sess = charger_db_session.ChargerDbSession(
+                db_url="dummy", db_port="5432", db_user="u", db_pass="p", db_name="n"
+            )
+            charger_poll.ChargerPoll(db_session=db_sess).polling_charger_data()
+            mock_write.assert_called_once()
 
 
 if __name__ == "__main__":
