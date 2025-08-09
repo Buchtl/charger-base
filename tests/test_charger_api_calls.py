@@ -19,11 +19,10 @@ class TestChargerApiCalls(unittest.TestCase):
 
     def test_status_polling(self):
         with requests_mock.Mocker() as m:
-          m.get(charger_api_calls.api_base, json={"eto": 4, "err": 0, "tma": [0,0]})
-          expected = StatusPoll(eto=4, err=0, tma={0,0})
+          m.get(charger_api_calls.api_base, json={"eto": 1, "err": 2, "tma": [3,4]})
+          expected = StatusPoll(eto=1, err=2, tma=[3,4])
           actual = charger_api_calls.status_polling()
-          self.assertEqual(actual.eto, expected.eto)
-          self.assertEqual(actual.err, expected.err)
+          self.assertEqual(actual, expected)
 
 if __name__ == "__main__":
     unittest.main()
