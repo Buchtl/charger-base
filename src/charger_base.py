@@ -56,7 +56,7 @@ if __name__ == "__main__":
         polling_period=polling_period,
         stop_event=stop_event,
     )
-    thread = threading.Thread(target=poller.polling_charger_data, daemon=True)
+    thread = threading.Thread(target=poller.polling_charger_data, kwargs={'endless': True}, daemon=True)
     thread.start()
 
     try:

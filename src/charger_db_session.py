@@ -45,6 +45,6 @@ class ChargerDbSession:
             self.logger.info("Session closed")
 
     def write(self, data: Any):
-        self.session.add(data)
-        self.session.commit()
+        #self.session.add(data)
+        #self.session.commit()
         self.logger.info(f"Added {data} to session")
