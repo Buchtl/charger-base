@@ -23,8 +23,9 @@ class TestChargerApiCalls(unittest.TestCase):
 
     def test_status_polling(self):
         with requests_mock.Mocker() as m:
-            m.get(charger_api_calls.api_base, json={"eto": 1, "err": 2, "tma": [3, 4]})
-            expected = StatusPoll(eto=1, err=2, tma=[3, 4])
+            freq: float = 50.01200104
+            m.get(charger_api_calls.api_base, json={"eto": 1, "err": 2, "tma": [3, 4], "fhz":freq})
+            expected = StatusPoll(eto=1, err=2, tma=[3, 4], fhz=freq)
             actual = charger_api_calls.status_polling()
             self.assertEqual(actual, expected)
 

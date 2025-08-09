@@ -30,3 +30,4 @@ class StatusPoll:
     eto: int
     err: int
     tma: list[float]
+    fhz: float
