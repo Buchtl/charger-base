@@ -7,6 +7,7 @@ import os
 
 from src import logging_conf
 from src.charger_poll import ChargerPoll
+from src.charger_db_session import ChargerDbSession
 
 logger: logging.Logger = logging_conf.config("charger_base")
 stop_event = threading.Event()
@@ -15,7 +16,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Polling data from the charger and write to database"
     )
-    parser.add_argument("--dburl", default="pi4b", help="URL with of the database")
+    parser.add_argument("--dburl", default="localhost", help="URL with of the database")
     parser.add_argument("--dbport", default="5432", help="Port of the database")
     parser.add_argument(
         "--dbuser", default="charger", help="Username of the target databse"
@@ -48,16 +49,14 @@ if __name__ == "__main__":
         f"dburl={db_url}, dbport={db_port} dbuser={db_user}, dbname={db_name}, ptime={polling_period}"
     )
 
+    db_session = ChargerDbSession(db_url=db_url, db_port=db_port, db_user=db_user, db_pass=db_pass, db_name=db_name)
+
     poller = ChargerPoll(
-        db_url=db_url,
-        db_port=db_port,
-        db_user=db_user,
-        db_pass=db_pass,
-        db_name=db_name,
+        db_session=db_session,
         polling_period=polling_period,
         stop_event=stop_event,
     )
-    thread = threading.Thread(target=poller.polling_charger_data, daemon=True)
+    thread = threading.Thread(target=poller.polling_charger_data, kwargs={'endless': True}, daemon=True)
     thread.start()
 
     try:

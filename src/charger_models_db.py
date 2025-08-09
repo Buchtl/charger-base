@@ -14,6 +14,7 @@ class StatusPollEntity(Base):
     err = Column(Integer)
     tma_0 = Column(Float)
     tma_1 = Column(Float)
+    fhz = Column(Float)
 
     def __str__(self):
-        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err}, {self.tma_0}, {self.tma_1})"
+        return f"StatusPollEntity: ({self.id}, {self.time}, {self.eto}, {self.err}, {self.tma_0}, {self.tma_1}, {self.fhz})"
