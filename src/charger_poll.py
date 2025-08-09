@@ -1,6 +1,5 @@
 import threading
 import time
-import random
 
 from src import logging_conf
 from src import charger_api_calls as charger_api
@@ -11,46 +10,31 @@ from src import charger_db_session as charger_db
 
 class ChargerPoll:
     logger = logging_conf.config("ChargerPoll")
-    db_url: str
-    db_port: str
-    db_user: str
-    db_pass: str
-    db_name: str
+    db_session: charger_db.ChargerDbSession
     polling_period: int
     stop_event: threading.Event
 
     def __init__(
         self,
-        db_url: str = None,
-        db_port: str = None,
-        db_user: str = None,
-        db_pass: str = None,
-        db_name: str = None,
+        db_session: charger_db.ChargerDbSession,
         polling_period: int = 1,
         stop_event=threading.Event,
     ):
-        self.db_url = db_url
-        self.db_port = db_port
-        self.db_user = db_user
-        self.db_pass = db_pass
-        self.db_name = db_name
+        self.db_session = db_session
         self.polling_period = polling_period
         self.stop_event = stop_event
 
-    def polling_charger_data(self):
-        with charger_db.ChargerDbSession(
-            db_url=self.db_url,
-            db_port=self.db_port,
-            db_user=self.db_user,
-            db_pass=self.db_pass,
-            db_name=self.db_name,
-        ) as db:
-            while True:
-                data: cModel.StatusPoll = charger_api.status_polling()
-                self.logger.info(f"trying to write {data}")
-                db_data = dbModel.StatusPollEntity(eto=data.eto, err=data.err, tma_0=data.tma[0], tma_1=data.tma[1])
-                db.write(db_data)
-                time.sleep(self.polling_period)
+    def polling_charger_data(self, endless=False):
+        while True:
+            data: cModel.StatusPoll = charger_api.status_polling()
+            self.logger.info(f"trying to write {data}")
+            db_data = dbModel.StatusPollEntity(
+                eto=data.eto, err=data.err, tma_0=data.tma[0], tma_1=data.tma[1]
+            )
+            self.db_session.write(db_data)
+            if endless != True:
+                return
+            time.sleep(self.polling_period)
 
     def signal_handler(self, sig, frame):
         self.logger.info("Stopping...")
