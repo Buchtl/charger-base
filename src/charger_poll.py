@@ -29,7 +29,7 @@ class ChargerPoll:
             data: cModel.StatusPoll = charger_api.status_polling()
             self.logger.info(f"trying to write {data}")
             db_data = dbModel.StatusPollEntity(
-                eto=data.eto, err=data.err, tma_0=data.tma[0], tma_1=data.tma[1]
+                eto=data.eto, err=data.err, tma_0=data.tma[0], tma_1=data.tma[1], fhz=data.fhz
             )
             self.db_session.write(db_data)
             if endless != True:
