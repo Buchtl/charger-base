@@ -21,7 +21,7 @@ services:
         condition: on-failure
       placement:
         constraints:
-          - node.labels.apps == true
+          - node.labels.charger-base == true
 
 networks:
   charger-net:
